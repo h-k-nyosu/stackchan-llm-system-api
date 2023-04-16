@@ -50,7 +50,11 @@ async def websocket_endpoint(websocket: WebSocket):
 
         # 大規模言語モデルでの処理（実際にはOpenAIやChatGPTなどのAPI呼び出し）
         response_content = chat_chain.run(history=load_data_from_json(), text=data)
-        response = {"emoji": "💬", "text": response_content}
+        response = {
+            "emoji": "💬",
+            "ai_chat": response_content,
+            "human_chat": data,
+        }
         save_data_to_json(response)
         # レスポンスをクライアントに送信
         await websocket.send_json(response)

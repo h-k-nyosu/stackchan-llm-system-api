@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 100" width="120" height="100">
+  <!-- 背景 -->
+  <rect width="120" height="100" fill="black" />
+  <!-- 目（左） -->
+  <ellipse id="leftEye" cx="40" cy="46" rx="4" ry="4" fill="white" />
+  <!-- 目（右） -->
+  <ellipse id="rightEye" cx="80" cy="46" rx="4" ry="4" fill="white" />
+  <!-- 口 -->
+  <line id="mouth" x1="45" y1="65" x2="75" y2="65" stroke="white" stroke-width="3" />
+  <script><![CDATA[
+    function blink() {
+      const leftEye = document.getElementById("leftEye");
+      const rightEye = document.getElementById("rightEye");
+      
+      leftEye.setAttribute("ry", "0.5");
+      rightEye.setAttribute("ry", "0.5");
+      
+      setTimeout(() => {
+        leftEye.setAttribute("ry", "4");
+        rightEye.setAttribute("ry", "4");
+      }, 500);
+    }
+
+    function lookLeft() {
+      const leftEye = document.getElementById("leftEye");
+      const rightEye = document.getElementById("rightEye");
+
+      leftEye.setAttribute("cx", "38");
+      rightEye.setAttribute("cx", "78");
+    }
+
+    function lookRight() {
+      const leftEye = document.getElementById("leftEye");
+      const rightEye = document.getElementById("rightEye");
+
+      leftEye.setAttribute("cx", "42");
+      rightEye.setAttribute("cx", "82");
+    }
+
+    function lookCenter() {
+      const leftEye = document.getElementById("leftEye");
+      const rightEye = document.getElementById("rightEye");
+
+      leftEye.setAttribute("cx", "40");
+      rightEye.setAttribute("cx", "80");
+    }
+
+    function tiltMouth(tilt) {
+      const mouth = document.getElementById("mouth");
+      mouth.setAttribute("transform", `rotate(${tilt}, 60, 65)`);
+    }
+
+    function animate() {
+      blink();
+      setTimeout(() => {
+        lookLeft();
+        tiltMouth(-5);
+      }, 2000);
+      setTimeout(() => {
+        lookCenter();
+        tiltMouth(0);
+      }, 5000);
+      setTimeout(() => {
+        lookRight();
+        tiltMouth(5);
+      }, 8000);
+      setTimeout(() => {
+        lookCenter();
+        tiltMouth(0);
+      }, 11000);
+
+      setTimeout(animate, 14000);
+    }
+
+    animate();
+  ]]></script>
+</svg>

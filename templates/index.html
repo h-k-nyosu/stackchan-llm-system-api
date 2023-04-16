@@ -38,7 +38,7 @@
           const newText = document.createElement("div");
           newText.classList.add("text");
           newText.classList.add("ms-3");
-          newText.textContent = data.text;
+          newText.textContent = data.ai_chat;
 
           newMessage.appendChild(newIcon);
           newMessage.appendChild(newText);
@@ -75,12 +75,18 @@
     <div class="container-fluid">
       <div class="row">
         <!-- Sidebar -->
-        <div class="col-md-3 col-lg-3 d-md-block sidebar">
-          <h2 class="sidebar-title">サイドバー</h2>
-          <form id="message-form" class="mb-3">
+        <div class="col-md-3 col-lg-2 sidebar">
+          <h2 class="sidebar-title">スタックチャン</h2>
+          <object
+            type="image/svg+xml"
+            data="/static/image/stackchan_neutral.svg"
+            width="80%"
+            height="auto"
+          ></object>
+          <form id="message-form" class="mb-3 message-form">
             <div class="mb-3">
               <label for="message-input" class="form-label"
-                >メッセージを入力してください</label
+                >スタックチャンと話そう!</label
               >
               <input type="text" class="form-control" id="message-input" />
             </div>
@@ -88,13 +94,35 @@
           </form>
         </div>
         <!-- Main content -->
-        <div class="col-md-9 col-lg-9 ms-md-auto main-content">
+        <div class="col-md-9 col-lg-10 ms-md-auto main-content">
           <h1>StackChan Log</h1>
           <div class="messages">
             {% for message in messages %}
-            <div class="message d-flex align-items-center mb-3">
-              <div class="icon">{{ message.emoji }}</div>
-              <div class="text ms-3">{{ message.text }}</div>
+            <div class="message d-flex flex-column align-items-start mb-3">
+              <div class="icon ms-3">{{ message.emoji }}</div>
+              <div class="text ms-3">{{ message.ai_chat }}</div>
+              <button
+                class="btn btn-link text-decoration-none text-start"
+                type="button"
+                data-bs-toggle="collapse"
+                data-bs-target="#message-{{ loop.index }}"
+                aria-expanded="false"
+                aria-controls="message-{{ loop.index }}"
+              >
+                詳細を表示
+              </button>
+              {% if message.human_chat %}
+              <div
+                class="collapse"
+                id="message-{{ loop.index }}"
+                style="width: 100%"
+              >
+                <hr style="width: 100%" />
+                <div class="details ms-3">
+                  <strong>Human:</strong> {{ message.human_chat }}
+                </div>
+              </div>
+              {% endif %}
             </div>
             {% endfor %}
           </div>
