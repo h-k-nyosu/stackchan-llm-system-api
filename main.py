@@ -15,9 +15,9 @@ templates = Jinja2Templates(directory="templates")
 async def index(request: Request):
     messages = [
         {"icon": "🙂", "text": "こんにちは！"},
-        {"icon": "🤖", "text": "こんにちは、私はロボットです。"},
-        {"icon": "🙂", "text": "FastAPIを使って楽しくチャットしています。"},
-        {"icon": "🤖", "text": "素晴らしい！ 私も楽しんでいます。"},
+        {"icon": "😆", "text": "こんにちは、私はロボットです。"},
+        {"icon": "🥲", "text": "FastAPIを使って楽しくチャットしています。"},
+        {"icon": "🤔", "text": "素晴らしい！ 私も楽しんでいます。"},
     ]
 
     return templates.TemplateResponse("index.html", {"request": request, "messages": messages})
