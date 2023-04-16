@@ -13,6 +13,44 @@
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css" />
+    <script>
+      let websocket;
+
+      function setupWebSocket() {
+        websocket = new WebSocket("ws://localhost:8000/ws");
+
+        websocket.addEventListener("open", (event) => {
+          console.log("WebSocket connection opened:", event);
+        });
+
+        websocket.addEventListener("message", (event) => {
+          const div = document.createElement("div");
+          div.textContent = event.data;
+
+          const container = document.querySelector(".main-content");
+          container.appendChild(div);
+        });
+
+        websocket.addEventListener("close", (event) => {
+          console.log("WebSocket connection closed:", event);
+        });
+
+        websocket.addEventListener("error", (event) => {
+          console.error("WebSocket error:", event);
+        });
+      }
+
+      function sendMessage(message) {
+        if (websocket.readyState === WebSocket.OPEN) {
+          websocket.send(message);
+        } else {
+          console.error("WebSocket is not connected.");
+        }
+      }
+
+      // ページが読み込まれたときにWebSocketの接続を確立
+      window.addEventListener("DOMContentLoaded", setupWebSocket);
+    </script>
   </head>
   <body>
     <div class="container-fluid">
@@ -28,6 +66,15 @@
         <div class="col-md-9 col-lg-9 ms-md-auto main-content">
           <h1>コマ表示</h1>
           <div>
+            <form id="message-form" class="mb-3">
+              <div class="mb-3">
+                <label for="message-input" class="form-label"
+                  >メッセージを入力してください</label
+                >
+                <input type="text" class="form-control" id="message-input" />
+              </div>
+              <button type="submit" class="btn btn-primary">送信</button>
+            </form>
             {% for message in messages %}
             <div class="message d-flex align-items-center mb-3">
               <div class="icon">{{ message.icon }}</div>
@@ -44,5 +91,16 @@
       integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
       crossorigin="anonymous"
     ></script>
+    <script>
+      // フォームを使ってメッセージを送信
+      document
+        .querySelector("#message-form")
+        .addEventListener("submit", (event) => {
+          event.preventDefault(); // 通常のフォーム送信を停止
+          const messageInput = document.querySelector("#message-input");
+          sendMessage(messageInput.value);
+          messageInput.value = ""; // 入力フィールドをクリア
+        });
+    </script>
   </body>
 </html>
