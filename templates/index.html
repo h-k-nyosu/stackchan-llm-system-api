@@ -13,63 +13,7 @@
     />
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/style.css" />
-    <script>
-      let websocket;
-
-      function setupWebSocket() {
-        websocket = new WebSocket("ws://localhost:8000/ws");
-
-        websocket.addEventListener("open", (event) => {
-          console.log("WebSocket connection opened:", event);
-        });
-
-        websocket.addEventListener("message", (event) => {
-          const data = JSON.parse(event.data);
-          const newMessage = document.createElement("div");
-          newMessage.classList.add("message");
-          newMessage.classList.add("d-flex");
-          newMessage.classList.add("align-items-center");
-          newMessage.classList.add("mb-3");
-
-          const newIcon = document.createElement("div");
-          newIcon.classList.add("icon");
-          newIcon.textContent = data.emoji;
-
-          const newText = document.createElement("div");
-          newText.classList.add("text");
-          newText.classList.add("ms-3");
-          newText.textContent = data.ai_chat;
-
-          newMessage.appendChild(newIcon);
-          newMessage.appendChild(newText);
-
-          const messagesContainer = document.querySelector(".messages");
-          messagesContainer.insertBefore(
-            newMessage,
-            messagesContainer.firstChild
-          );
-        });
-
-        websocket.addEventListener("close", (event) => {
-          console.log("WebSocket connection closed:", event);
-        });
-
-        websocket.addEventListener("error", (event) => {
-          console.error("WebSocket error:", event);
-        });
-      }
-
-      function sendMessage(message) {
-        if (websocket.readyState === WebSocket.OPEN) {
-          websocket.send(message);
-        } else {
-          console.error("WebSocket is not connected.");
-        }
-      }
-
-      // ページが読み込まれたときにWebSocketの接続を確立
-      window.addEventListener("DOMContentLoaded", setupWebSocket);
-    </script>
+    <script src="/static/js/websocket.js"></script>
   </head>
   <body>
     <div class="container-fluid">
