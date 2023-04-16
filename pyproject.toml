@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "stackchan-llm-system-api"
+version = "0.1.0"
+description = ""
+authors = ["h-k-nyosu <kuro.h1020@gmail.com>"]
+readme = "README.md"
+packages = [{include = "stackchan_llm_system_api"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi = {extras = ["all"], version = "^0.95.1"}
+Jinja2 = "^3.1.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
